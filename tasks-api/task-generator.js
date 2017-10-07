@@ -9,7 +9,7 @@ function createTask(id, text) {
 }
 
 export function callCheckProcess(){
-    setInterval(function () {
+    setInterval(() => {
         var item = client.zrange('delayed', 0, 0, 'withscores', function (err, res) {
             if (err)
                 console.error('There has been an error:', err);
@@ -22,7 +22,7 @@ export function callCheckProcess(){
         });
     }, 1000);
 
-    setInterval(function () {
+    setInterval(() => {
         client.lpop('queue', function (error, data) {
             if (error) {
                 console.error('There has been an error:', error);
@@ -32,7 +32,7 @@ export function callCheckProcess(){
                 console.log(data.text);
             }
             else {
-                console.log("There is no task for executing");
+                console.log("There is no task for execution");
             }
         });
     }, 2000);

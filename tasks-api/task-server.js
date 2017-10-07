@@ -9,12 +9,17 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-app.get('/echoAtTime', (req, res, next) => {
-    sendForExecuting(req.param("text"), req.param("time"));
-    res.end();
-}).post('/echoAtTime', (req, res, next) => {
-    sendForExecuting(req.param("text"), req.param("time"));
-    res.end();
+app.post('/echoAtTime', (req, res) => {
+    try {
+        var timeSeconds = parseInt(req.param("time"));
+        if (!(timeSeconds < new Date().getTime()))
+            sendForExecuting(req.param("text"), timeSeconds);
+        res.end();
+    }
+    catch (error) {
+        console.log(error);
+        res.end();
+    }
 });
 
 
