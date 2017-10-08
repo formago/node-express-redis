@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-app.post('/echoAtTime', (req, res) => {
+app.use('/echoAtTime', (req, res) => {
     try {
         var timeSeconds = parseInt(req.param("time"));
         if (!(timeSeconds < new Date().getTime()))

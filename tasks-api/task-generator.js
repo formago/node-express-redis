@@ -3,18 +3,23 @@ import redis from 'redis';
 
 var client = redis.createClient();
 
+client.on('error', function (err) {
+    console.log('Error ' + err);
+  });
+
+
 function createTask(id, text) {
     this.identifer = id;
     this.text = text;
 }
 
-export function callCheckProcess(){
+export function callCheckProcess() {
     setInterval(() => {
         var item = client.zrange('delayed', 0, 0, 'withscores', function (err, res) {
             if (err)
                 console.error('There has been an error:', err);
             var currentTime = new Date().getTime();
-            if (currentTime > parseInt(res[1])) {
+            if (currentTime >= parseInt(res[1])) {
                 if (client.zrem('delayed', res[0])) {
                     client.rpush('queue', res[0]);
                 }
